@@ -56,8 +56,9 @@ async def grant(request: sanic.Request) -> HTTPResponse:
     if data is None:
         return json({'code': 404, 'success': False, 'message': "User is not authenticated"}, 404)
 
+    del token_cache[request.json.get('token')]
+
     if time.time() - data.get('nonce') > TIMEOUT_SECONDS:
-        del token_cache[request.json.get('token')]
         return json({'code': 404, 'success': False, 'message': "User is not authenticated"}, 404)
 
     return json({
