@@ -31,8 +31,7 @@ async def authenticate(request: sanic.Request) -> HTTPResponse:
 
     # TODO: search authentication through database
 
-    token = str(uuid.uuid4())
-    token_cache[token] = {
+    token_cache[(token := str(uuid.uuid4()))] = {
         'username': request.json.get('username'),
         'nonce': time.time()
     }
@@ -52,8 +51,7 @@ async def grant(request: sanic.Request) -> HTTPResponse:
     if not all(item in request.json.keys() for item in required):
         return json({'code': 400, 'success': False, 'message': "Invalid request"}, 400)
 
-    data = token_cache.get(request.json.get('token'), None)
-    if data is None:
+    if (data := token_cache.get(request.json.get('token'), None)) is None:
         return json({'code': 404, 'success': False, 'message': "User is not authenticated"}, 404)
 
     del token_cache[request.json.get('token')]
