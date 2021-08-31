@@ -30,3 +30,5 @@ The authentication flow is quite simple. When a game client wants to connect to 
                      GameServer (2) --[token]-----/
 
 I'm sorry, this diagram sucks... Hopefully you understand.
+
+*imagine that there are super snazzy graphs here or something ;)*
